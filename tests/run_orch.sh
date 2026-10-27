@@ -840,7 +840,7 @@ new_case fb-reassign-wt
 resp worktree_create.1 '{"result":{"workspace":{"workspace_id":"w7"},"root_pane":{"pane_id":"w7:p1"},"worktree":{"path":"@WT1@"},"type":"worktree_created"}}'
 resp worktree_create.2 '{"result":{"workspace":{"workspace_id":"w8"},"root_pane":{"pane_id":"w8:p1"},"worktree":{"path":"@WT2@"},"type":"worktree_created"}}'
 mkdir -p "$C/wt1" "$C/wt2"; WT1=$(cd "$C/wt1" && pwd -P); WT2=$(cd "$C/wt2" && pwd -P)
-sed -i "s|@WT1@|$WT1|" "$FAKE_HERDR_DIR/responses/worktree_create.1"; sed -i "s|@WT2@|$WT2|" "$FAKE_HERDR_DIR/responses/worktree_create.2"
+sed -i.bak "s|@WT1@|$WT1|" "$FAKE_HERDR_DIR/responses/worktree_create.1"; sed -i.bak "s|@WT2@|$WT2|" "$FAKE_HERDR_DIR/responses/worktree_create.2"
 orch init-run --run-id t --worker claude --worker claude --worktree >/dev/null 2>&1
 N1=$(awk -F'\t' 'NR==2{print $2}' "$WS/.herdr-orch/t/workers.tsv"); N2=$(awk -F'\t' 'NR==3{print $2}' "$WS/.herdr-orch/t/workers.tsv")
 resp agent_list "{\"result\":{\"agents\":[{\"name\":\"$N1\",\"agent_status\":\"idle\",\"pane_id\":\"w7:p1\"},{\"name\":\"$N2\",\"agent_status\":\"idle\",\"pane_id\":\"w8:p1\"}],\"type\":\"agent_list\"}}"
